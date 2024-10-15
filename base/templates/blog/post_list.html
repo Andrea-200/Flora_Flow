@@ -172,9 +172,10 @@
                     Are you sure you want to delete the post titled "<span id="post-title"></span>"?
                 </div>
                 <div class="modal-footer">
+                   
                     <form id="delete-form" method="POST" action="">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Yes, delete</button>
+                        <button type="submit" class="btn btn-danger"id="delete-form" >Yes, delete</button>
                     </form>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 </div>
@@ -188,12 +189,22 @@
         const postTitle = document.getElementById('post-title');
         const deleteForm = document.getElementById('delete-form');
 
-        deleteButtons.forEach(button => {
+        {% comment %} deleteButtons.forEach(button => {
             button.addEventListener('click', function() {
                 const postId = this.getAttribute('data-post-id');
                 const postTitleText = this.getAttribute('data-post-title');
                 postTitle.textContent = postTitleText;
                 deleteForm.action = "{% url 'blog:post_delete' 0 %}".replace(/0$/, postId);
+            });
+        }); {% endcomment %}
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const postId = this.getAttribute('data-post-id');
+                const postTitleText = this.getAttribute('data-post-title');
+                postTitle.textContent = postTitleText;
+        
+                // Directly construct the correct URL for deletion
+                deleteForm.action = `/post/${postId}/delete/`;
             });
         });
     </script>
